@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  proxy:
+    image: jwilder/nginx-proxy:0.5.0
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "/home/ec2-user/certs:/etc/nginx/certs:ro"
+      - "/etc/nginx/vhost.d"
+      - "/usr/share/nginx/html"
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "./proxy.conf:/etc/nginx/conf.d/my_proxy.conf"
+  ssl:
+    image: alastaircoote/docker-letsencrypt-nginx-proxy-companion
+    volumes:
+      - "/home/ec2-user/certs:/etc/nginx/certs:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes_from:
+      - proxy
+
+  wp-jagcity:
+    image: wordpress:4.7.2-php7.0-apache
+    expose:
+      - 3000
+    environment:
+      - "WORDPRESS_DB_PASSWORD=wp-jagcity"
+      - "WORDPRESS_DB_HOST=mysql-jagcity"
+      - "VIRTUAL_HOST=jagcity.com,www.jagcity.com"
+      - "LETSENCRYPT_HOST=jagcity.com,www.jagcity.com"
+      - "LETSENCRYPT_EMAIL=admin@jagcity.com"
+    volumes:
+      - ./html-jagcity:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+
+  mysql-jagcity:
+    image: mariadb:10.1.21
+    environment:
+      MYSQL_ROOT_PASSWORD: wp-jagcity
+      MYSQL_DATABASE: wordpress
+    volumes:
+      - ./mysql-jagcity:/var/lib/mysql
+  mail:
+    image: namshi/smtp

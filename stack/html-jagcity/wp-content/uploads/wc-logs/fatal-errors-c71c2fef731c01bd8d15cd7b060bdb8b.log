@@ -1,0 +1,18 @@
+2018-02-20T18:34:14+00:00 CRITICAL Uncaught Error: Call to a member function get_id() on null in /var/www/html/wp-content/themes/shopkeeper/functions.php:1044
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(298): get_customize_section_url('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(323): WP_Hook->apply_filters('', Array)
+#2 /var/www/html/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-admin/admin-ajax.php(91): do_action('wp_ajax_get_url')
+#4 {main}
+  thrown
+
+2018-03-06T12:23:40+00:00 CRITICAL Uncaught Error: Call to a member function get_id() on null in /var/www/html/wp-content/themes/shopkeeper/functions.php:1044
+Stack trace:
+#0 /var/www/html/wp-includes/class-wp-hook.php(286): get_customize_section_url('')
+#1 /var/www/html/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#2 /var/www/html/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#3 /var/www/html/wp-admin/admin-ajax.php(97): do_action('wp_ajax_get_url')
+#4 {main}
+  thrown
+
